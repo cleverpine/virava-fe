@@ -1,0 +1,10 @@
+/* Global variables */
+:root {
+	--submit-button-color: #3AD551;
+	--cp-auth-divider: #0000001F;
+	--cp-auth-background-default: #FFFFFF;
+	--cp-auth-text-primary: #000000DE;
+	--cp-auth-primary-dark: #299539;
+	--cp-auth-primary-main: #3AD551;
+	--cp-auth-button-box-shadow-color: #00000029;
+}

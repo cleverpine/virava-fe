@@ -1,0 +1,58 @@
+<div class="page-container">
+  <div class="sign-in-wrapper">
+    <h2 class="sign-in-text">Sign up</h2>
+    <div class="sign-in-account">
+      <p class="missing-account-text">Enter your details and start your journey with us!</p>
+    </div>
+    <div class="sign-in-container">
+      <form [formGroup]="signUpForm" class="email-input-form">
+        <mat-form-field class="email-input-full-width" appearance="outline">
+          <mat-label>E-mail</mat-label>
+          <input type="email" matInput formControlName="email" [errorStateMatcher]="matcher"
+                 placeholder="example@cleverpine.com">
+          <mat-error *ngIf="signUpForm.get('email')!.hasError('email') && !signUpForm.get('email')!.hasError('required')">
+            Please enter a valid e-mail address
+          </mat-error>
+          <mat-error *ngIf="signUpForm.get('email')!.hasError('required')">
+            E-mail is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="password-input-full-width" appearance="outline">
+          <mat-label>Password</mat-label>
+          <input type="password" matInput formControlName="password" [errorStateMatcher]="matcher">
+          <mat-error *ngIf="signUpForm.get('password')!.hasError('password') && !signUpForm.get('password')!.hasError('required')">
+            Please enter a valid password
+          </mat-error>
+          <mat-error *ngIf="signUpForm.get('password')!.hasError('required')">
+            Password is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="password-input-full-width" appearance="outline">
+          <mat-label>Confirm Password</mat-label>
+          <input type="password" matInput formControlName="confirmPassword" [errorStateMatcher]="matcher">
+          <mat-error *ngIf="signUpForm.get('confirmPassword')!.hasError('password') && !signUpForm.get('confirmPassword')!.hasError('required')">
+            Please enter a valid password
+          </mat-error>
+          <mat-error *ngIf="signUpForm.get('confirmPassword')!.hasError('required')">
+            Password is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+      </form>
+      
+      <p class="required-fields-text">
+        Fields that are marked with * sign are required.
+      </p>
+      <button class="sign-in-btn"
+              mat-raised-button color="primary"
+              [disabled]="signUpForm.invalid">
+        Sign up
+      </button>
+      <div class="forgotten-password-wrapper">
+        <p class="forgotten-password-text">Already have an account?</p>
+        <a [routerLink]="'/' + ROUTE_SIGN_IN" class="reset-password-link">Sign in</a>
+      </div>
+    </div>
+  </div>
+</div>

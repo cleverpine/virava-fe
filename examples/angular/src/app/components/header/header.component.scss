@@ -1,0 +1,25 @@
+@import "../../../assets/styles/variables.scss";
+
+.header-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: $primary-main;
+  padding: 10px 24px;
+
+  .header-link {
+    text-decoration: none;
+    color: $white;
+    padding: 0 10px;
+  }
+
+  .logout-btn {
+    background: none;
+    color: $white;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
+  }
+}

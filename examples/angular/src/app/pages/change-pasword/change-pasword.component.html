@@ -1,0 +1,65 @@
+<div class="page-container">
+  <div class="sign-in-wrapper">
+    <h2 class="sign-in-text">Change password</h2>
+    <div class="sign-in-container">
+      <form [formGroup]="changePasswordForm" class="email-input-form">
+        <mat-form-field class="email-input-full-width" appearance="outline">
+          <mat-label>E-mail</mat-label>
+          <input type="email" matInput formControlName="email" [errorStateMatcher]="matcher"
+                 placeholder="example@cleverpine.com">
+          <mat-error *ngIf="changePasswordForm.get('email')!.hasError('email') && !changePasswordForm.get('email')!.hasError('required')">
+            Please enter a valid e-mail address
+          </mat-error>
+          <mat-error *ngIf="changePasswordForm.get('email')!.hasError('required')">
+            E-mail is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="email-input-full-width" appearance="outline">
+          <mat-label>Current Password</mat-label>
+          <input type="email" matInput formControlName="currentPassword" [errorStateMatcher]="matcher"
+                 placeholder="example@cleverpine.com">
+          <mat-error *ngIf="changePasswordForm.get('currentPassword')!.hasError('email') && !changePasswordForm.get('currentPassword')!.hasError('required')">
+            Please enter a valid e-mail address
+          </mat-error>
+          <mat-error *ngIf="changePasswordForm.get('currentPassword')!.hasError('required')">
+            E-mail is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="email-input-full-width" appearance="outline">
+          <mat-label>New Password</mat-label>
+          <input type="email" matInput formControlName="newPassword" [errorStateMatcher]="matcher"
+                 placeholder="example@cleverpine.com">
+          <mat-error *ngIf="changePasswordForm.get('newPassword')!.hasError('email') && !changePasswordForm.get('newPassword')!.hasError('required')">
+            Please enter a valid e-mail address
+          </mat-error>
+          <mat-error *ngIf="changePasswordForm.get('newPassword')!.hasError('required')">
+            E-mail is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="email-input-full-width" appearance="outline">
+          <mat-label>E-mail</mat-label>
+          <input type="email" matInput formControlName="confirmPassword" [errorStateMatcher]="matcher"
+                 placeholder="example@cleverpine.com">
+          <mat-error *ngIf="changePasswordForm.get('confirmPassword')!.hasError('email') && !changePasswordForm.get('confirmPassword')!.hasError('required')">
+            Please enter a valid e-mail address
+          </mat-error>
+          <mat-error *ngIf="changePasswordForm.get('confirmPassword')!.hasError('required')">
+            E-mail is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+      </form>
+      
+      <p class="required-fields-text">
+        Fields that are marked with * sign are required.
+      </p>
+      <button class="sign-in-btn"
+              mat-raised-button color="primary"
+              [disabled]="changePasswordForm.invalid">
+        Change Password
+      </button>
+    </div>
+  </div>
+</div>

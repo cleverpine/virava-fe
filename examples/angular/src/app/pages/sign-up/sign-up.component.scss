@@ -1,0 +1,76 @@
+@import "../../../assets/styles/variables.scss";
+
+.page-container {
+  width: 100%;
+  height: 100vh;
+
+  .email-input-full-width, .password-input-full-width {
+    width: 100%;
+  }
+
+  .sign-in-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    .sign-in-text {
+      margin: 30px 0;
+      font-size: 60px;
+      font-weight: 500;
+    }
+
+    .sign-in-account {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      margin-bottom: 30px;
+      font-size: 20px;
+
+      .sign-up-link {
+        padding: 0 8px;
+        color: $primary-main;
+        font-weight: bold;
+        text-decoration: none;
+      }
+    }
+
+    .sign-in-container {
+      width: 500px;
+
+      .required-fields-text {
+        font-size: 14px;
+        font-style: italic;
+        text-align: left;
+      }
+
+      .sign-in-btn {
+        width: 500px;
+        padding: 8px 0;
+        margin: 20px 0;
+        background-color: $primary-main;
+        text-transform: uppercase;
+      }
+
+      .forgotten-password-wrapper {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 25px;
+        font-size: 20px;
+
+        .reset-password-link {
+          padding: 0 8px;
+          color: $primary-main;
+          font-weight: bold;
+          text-decoration: none;
+        }
+      }
+    }
+  }
+}
