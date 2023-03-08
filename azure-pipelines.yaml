@@ -1,0 +1,33 @@
+trigger:
+  - main
+  - develop
+  - stage
+  - release*
+  - feature*
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- checkout: self
+  submodules: true
+  persistCredentials : true
+
+- task: Npm@1
+  displayName: NPM install
+  inputs:
+    command: 'install'
+
+- task: Npm@1
+  displayName: NPM build
+  inputs:
+    command: 'custom'
+    customCommand: 'run build'
+
+
+- ${{ if startsWith(variables['Build.SourceBranch'], 'refs/heads/main') }}:
+    - task: Npm@1
+      displayName: NPM publish to NPM Registry
+      inputs:
+        command: 'publish'
+        publishEndpoint: 'npm_cleverpine_dev_cicd'
