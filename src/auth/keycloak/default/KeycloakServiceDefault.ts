@@ -2,7 +2,7 @@ import Keycloak from 'keycloak-js';
 import { KeycloakConfigDefault } from './KeycloakConfigDefault';
 import { AuthResponse } from '../../../models/AuthResponse';
 import { TokenObjectValues } from '../../../models/TokenObjectValues';
-import { setTokens } from '../../../utils/helpers';
+import { removeTokens, setTokens } from '../../../utils/helpers';
 import { MS_CHECK_TOKEN_VALIDITY_INTERVAL, TOKEN_MIN_VALIDITY } from '../../../utils/constants';
 
 import { AuthServiceBase } from '../../../auth/base/AuthServiceBase';
@@ -83,7 +83,9 @@ export class KeycloakServiceDefault extends AuthServiceBase<KeycloakConfigDefaul
 
     clearInterval(this.updateTokenInterval);
 
-    return this.keycloak.logout({ redirectUri: redirectUri });
+    return this.keycloak.logout({ redirectUri: redirectUri }).then(() => {
+      removeTokens(this.config);
+    });
   };
 
   /**
