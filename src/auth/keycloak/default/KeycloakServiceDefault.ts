@@ -36,7 +36,6 @@ export class KeycloakServiceDefault extends AuthServiceBase<KeycloakConfigDefaul
       .init({
         onLoad: 'login-required',
         checkLoginIframe: false,
-        redirectUri: this.config.redirectUri,
         pkceMethod: 'S256',
       })
       .then(() => {
