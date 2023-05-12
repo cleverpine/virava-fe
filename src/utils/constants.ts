@@ -6,7 +6,6 @@ export const KEY_REFRESH_TOKEN: string = 'refresh_token';
 export const KEY_EXPIRATION_DATE: string = 'expiration_date';
 export const KEY_EXPIRATION_REFRESH: string = 'expiration_refresh';
 export const MS_CHECK_TOKEN_VALIDITY_INTERVAL: number = 10000;
-export const TOKEN_MIN_VALIDITY: number = 60;
 export const ACCESS_TOKEN_UPDATE_MIN_VALIDITY: number = 300;
 
 // API

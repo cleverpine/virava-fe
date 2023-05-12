@@ -1,7 +1,5 @@
 import Keycloak from 'keycloak-js';
 
-import jwt_decode from 'jwt-decode';
-
 import { KeycloakConfigDefault } from './KeycloakConfigDefault';
 import { AuthResponse } from '../../../models/AuthResponse';
 import { TokenObjectValues } from '../../../models/TokenObjectValues';
@@ -110,33 +108,29 @@ export class KeycloakServiceDefault extends AuthServiceBase<KeycloakConfigDefaul
     return !!this.keycloak.authenticated;
   };
 
-   /**
-   * @returns if the refresh token is expired
-   */
-   isRefreshTokenExpired = (keycloak: Keycloak): boolean => {
-    // Parse and decode the refresh token
-    const refreshToken = keycloak.refreshToken as string;
-    const refreshTokenPayload: any = jwt_decode(refreshToken);
-
-    // Get the expiration time of the refresh token (in seconds)
-    const refreshTokenExp = refreshTokenPayload.exp;
-
-    // Get the current time (in seconds)
-    const currentTime = Math.floor(new Date().getTime() / 1000);
-
-    // Check if the refresh token has expired
-    return currentTime >= refreshTokenExp;
-  };
-
   /**
    * Checks if the refresh token has expired and if it has, logs the user out, if it hasn't, updates the access and refresh tokens
    */
   checkIfTokenHasExpired = () => {
-    if (this.isRefreshTokenExpired(this.keycloak)) {
+    if (this.isRefreshTokenExpired()) {
       this.logout();
       throw new Error('Refresh token has expired!');
     } else {
       this.updateToken();
     }
   }
+
+  /**
+  * @returns if the refresh token is expired
+  */
+  private isRefreshTokenExpired = (): boolean => {
+    // Get the expiration time of the refresh token (in seconds)
+    const refreshTokenExp = this.keycloak.refreshTokenParsed!.exp;
+
+    // Get the current time (in seconds)
+    const currentTime = Math.floor(new Date().getTime() / 1000);
+
+    // Check if the refresh token has expired
+    return currentTime >= refreshTokenExp!;
+  };
 }
