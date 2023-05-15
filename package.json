@@ -16,7 +16,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://cleverpine@dev.azure.com/cleverpine/FE%20Internal%20libraries/_git/cp-auth-service"
+    "url": "https://github.com/cleverpine/virava-fe.git"
   },
   "types": "index.d.ts",
   "license": "ISC",
