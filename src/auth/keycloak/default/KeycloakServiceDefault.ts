@@ -10,7 +10,6 @@ import { ACCESS_TOKEN_UPDATE_MIN_VALIDITY } from '../../../utils/constants';
 
 export class KeycloakServiceDefault extends AuthServiceBase<KeycloakConfigDefault> {
   private keycloak!: Keycloak;
-  private updateTokenInterval!: ReturnType<typeof setInterval>;
 
   /**
    * Initialises the auth service configuration
@@ -73,15 +72,13 @@ export class KeycloakServiceDefault extends AuthServiceBase<KeycloakConfigDefaul
   };
 
   /**
-   * Logouts user, clears the `updateTokenInterval` and removes tokens from `localStorage`
+   * Logouts user and removes tokens from `localStorage`
    * @param redirectUri - url to be redirected after logout
    */
   logout = async (redirectUri?: string): Promise<void> => {
     if (!this.config?.clientId || !this.config.baseUrl || !this.keycloak) {
       throw new Error('Service not initialized!');
     }
-
-    clearInterval(this.updateTokenInterval);
 
     return this.keycloak.logout({ redirectUri: redirectUri }).then(() => {
       removeTokens(this.config);
@@ -116,6 +113,7 @@ export class KeycloakServiceDefault extends AuthServiceBase<KeycloakConfigDefaul
       this.logout();
       throw new Error('Refresh token has expired!');
     } else {
+      console.log('Updating token...');
       this.updateToken();
     }
   }
