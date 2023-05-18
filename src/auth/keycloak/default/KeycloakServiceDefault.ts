@@ -47,7 +47,6 @@ export class KeycloakServiceDefault extends AuthServiceBase<KeycloakConfigDefaul
   };
 
   /**
-   * Refresh token if it's valid for less then TOKEN_MIN_VALIDITY seconds.
    * If it is refreshed - updates the values in `localStorage`.
    */
   updateToken = (): Promise<boolean> => {

@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
-import { AuthServiceFactory, ServiceType, KeycloakServiceDefault, KeycloakConfigDefault } from 'virava';
-console.log({ AuthServiceFactory, ServiceType, KeycloakServiceDefault });
 
-
-const ACCESS_TOKEN_KEY = 'access_token';
+import { KeycloakServiceDefault, KeycloakConfigDefault } from 'virava';
 
 @Injectable({
   providedIn: 'root',
@@ -35,9 +32,5 @@ export class AuthService {
 
   checkIfTokenHasExpired() {
     this.viravaService?.checkIfTokenHasExpired();
-  }
-
-  checkIfUserIsAuthenticated() {
-    return this.viravaService?.isAuthenticated();
   }
 }

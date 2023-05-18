@@ -3,14 +3,13 @@ import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpErrorResponse
 
 import { catchError, from, mergeMap, Observable, of, tap } from 'rxjs';
 
-import { KeycloakServiceDefault } from 'virava';
-
 import { LocalStorageService } from '../services/local-storage.service';
+import { AuthService } from '../services/auth.service';
 
 @Injectable()
 export class ApiInterceptor implements HttpInterceptor {
   constructor(private localStorageService: LocalStorageService,
-    private authService: KeycloakServiceDefault) { }
+    private authService: AuthService) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const token = this.localStorageService.getData('access_token');
@@ -33,7 +32,7 @@ export class ApiInterceptor implements HttpInterceptor {
       }),
       catchError((err: HttpErrorResponse) => {
         if (err.status === 401) {
-          return from(this.authService.updateToken()).pipe(
+          return from(this.authService.updateToken()!).pipe(
             mergeMap(() => {
               // Check if the token has been updated
               const newToken = this.localStorageService.getData('access_token');
@@ -60,4 +59,3 @@ export class ApiInterceptor implements HttpInterceptor {
     );
   }
 }
-

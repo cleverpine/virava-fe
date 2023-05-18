@@ -23,7 +23,7 @@ export class AppComponent implements OnInit {
     this.authService.logout();
   }
 
-  checkIfUserIsAuthenticated() {
-    this.authService.checkIfUserIsAuthenticated();
+  fetchRequest() {
+   // Request to the BE
   }
 }
