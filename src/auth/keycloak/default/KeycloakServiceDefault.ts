@@ -112,7 +112,6 @@ export class KeycloakServiceDefault extends AuthServiceBase<KeycloakConfigDefaul
       this.logout();
       throw new Error('Refresh token has expired!');
     } else {
-      console.log('Updating token...');
       this.updateToken();
     }
   }
