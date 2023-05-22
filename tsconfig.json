@@ -14,6 +14,7 @@
 		"noImplicitReturns": true,
 		"noImplicitThis": true,
 		"noImplicitAny": true,
+		"outDir": "dist",
 		"strictNullChecks": true,
 		"suppressImplicitAnyIndexErrors": true,
 		"allowSyntheticDefaultImports": true,

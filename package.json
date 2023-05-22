@@ -1,6 +1,6 @@
 {
   "name": "virava",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "author": "CleverPine",
   "description": "The aim of this package is to enclose the auth logic for the most common case and give the user a simple flow for doing authentication.",
   "keywords": [
@@ -9,14 +9,14 @@
     "cleverpine",
     "keycloak"
   ],
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\"",
     "build": "tsc -p tsconfig.json"
   },
   "repository": {
     "type": "git",
-    "url": "https://cleverpine@dev.azure.com/cleverpine/FE%20Internal%20libraries/_git/cp-auth-service"
+    "url": "https://github.com/cleverpine/virava-fe.git"
   },
   "types": "index.d.ts",
   "license": "ISC",
