@@ -9,7 +9,7 @@
     "cleverpine",
     "keycloak"
   ],
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\"",
     "build": "tsc -p tsconfig.json"
