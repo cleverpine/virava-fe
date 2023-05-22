@@ -1,15 +1,15 @@
 import Keycloak from 'keycloak-js';
+
 import { KeycloakConfigDefault } from './KeycloakConfigDefault';
 import { AuthResponse } from '../../../models/AuthResponse';
 import { TokenObjectValues } from '../../../models/TokenObjectValues';
-import { setTokens } from '../../../utils/helpers';
-import { MS_CHECK_TOKEN_VALIDITY_INTERVAL, TOKEN_MIN_VALIDITY } from '../../../utils/constants';
+import { removeTokens, setTokens } from '../../../utils/helpers';
 
 import { AuthServiceBase } from '../../../auth/base/AuthServiceBase';
+import { ACCESS_TOKEN_UPDATE_MIN_VALIDITY } from '../../../utils/constants';
 
 export class KeycloakServiceDefault extends AuthServiceBase<KeycloakConfigDefault> {
   private keycloak!: Keycloak;
-  private updateTokenInterval!: ReturnType<typeof setInterval>;
 
   /**
    * Initialises the auth service configuration
@@ -36,7 +36,6 @@ export class KeycloakServiceDefault extends AuthServiceBase<KeycloakConfigDefaul
       .init({
         onLoad: 'login-required',
         checkLoginIframe: false,
-        redirectUri: this.config.redirectUri,
         pkceMethod: 'S256',
       })
       .then(() => {
@@ -44,36 +43,35 @@ export class KeycloakServiceDefault extends AuthServiceBase<KeycloakConfigDefaul
           access: this.keycloak.token,
           refresh: this.keycloak.refreshToken,
         } as TokenObjectValues);
-
-        // Check token validity every MS_CHECK_TOKEN_VALIDITY_INTERVAL seconds
-        // and if necessary, update the token.
-        this.updateTokenInterval = setInterval(this.updateToken, MS_CHECK_TOKEN_VALIDITY_INTERVAL);
       });
   };
 
   /**
-   * Refresh token if it's valid for less then TOKEN_MIN_VALIDITY seconds.
    * If it is refreshed - updates the values in `localStorage`.
    */
-  private updateToken = () => {
-    this.keycloak
-      .updateToken(TOKEN_MIN_VALIDITY)
-      .then((refreshed: boolean) => {
-        if (refreshed) {
-          setTokens(this.config, {
-            access: this.keycloak.token,
-            refresh: this.keycloak.refreshToken,
-          } as TokenObjectValues);
-        }
-      })
-      .catch((error: any) => {
-        this.logout();
-        throw new Error('Failed to refresh token ' + error);
-      });
-  }
+  updateToken = (): Promise<boolean> => {
+    return new Promise<boolean>((resolve, reject) => {
+      this.keycloak
+        .updateToken(ACCESS_TOKEN_UPDATE_MIN_VALIDITY)
+        .then((refreshed: boolean) => {
+          if (refreshed) {
+            setTokens(this.config, {
+              access: this.keycloak.token,
+              refresh: this.keycloak.refreshToken,
+            } as TokenObjectValues);
+          }
+
+          resolve(refreshed);
+        })
+        .catch((error: any) => {
+          this.logout();
+          reject(new Error('Failed to refresh token ' + error));
+        });
+    });
+  };
 
   /**
-   * Logouts user, clears the `updateTokenInterval` and removes tokens from `localStorage`
+   * Logouts user and removes tokens from `localStorage`
    * @param redirectUri - url to be redirected after logout
    */
   logout = async (redirectUri?: string): Promise<void> => {
@@ -81,9 +79,9 @@ export class KeycloakServiceDefault extends AuthServiceBase<KeycloakConfigDefaul
       throw new Error('Service not initialized!');
     }
 
-    clearInterval(this.updateTokenInterval);
-
-    return this.keycloak.logout({ redirectUri: redirectUri });
+    return this.keycloak.logout({ redirectUri: redirectUri }).then(() => {
+      removeTokens(this.config);
+    });
   };
 
   /**
@@ -104,5 +102,31 @@ export class KeycloakServiceDefault extends AuthServiceBase<KeycloakConfigDefaul
       throw new Error('Service not initialized!');
     }
     return !!this.keycloak.authenticated;
+  };
+
+  /**
+   * Checks if the refresh token has expired and if it has, logs the user out, if it hasn't, updates the access and refresh tokens
+   */
+  checkIfTokenHasExpired = () => {
+    if (this.isRefreshTokenExpired()) {
+      this.logout();
+      throw new Error('Refresh token has expired!');
+    } else {
+      this.updateToken();
+    }
+  }
+
+  /**
+  * @returns if the refresh token is expired
+  */
+  private isRefreshTokenExpired = (): boolean => {
+    // Get the expiration time of the refresh token (in seconds)
+    const refreshTokenExp = this.keycloak.refreshTokenParsed!.exp;
+
+    // Get the current time (in seconds)
+    const currentTime = Math.floor(new Date().getTime() / 1000);
+
+    // Check if the refresh token has expired
+    return currentTime >= refreshTokenExp!;
   };
 }

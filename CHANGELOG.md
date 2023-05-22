@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.3.0] - 2023-05-22
+### Added
+
+- Enhanced the authentication flow by integrating functionalities for improved management of token refreshment and expiration
+
+
 ## [1.2.0] - 2023-04-07
 ### Added
 
