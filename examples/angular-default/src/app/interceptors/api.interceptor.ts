@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpErrorResponse, HttpResponse } from '@angular/common/http';
 
-import { catchError, from, mergeMap, Observable, of, tap } from 'rxjs';
+import { catchError, EMPTY, from, mergeMap, Observable, of, tap } from 'rxjs';
 
 import { LocalStorageService } from '../services/local-storage.service';
 import { AuthService } from '../services/auth.service';
@@ -31,6 +31,7 @@ export class ApiInterceptor implements HttpInterceptor {
         }
       }),
       catchError((err: HttpErrorResponse) => {
+        // TODO: Handle the 401 error inside the Virava if possible
         if (err.status === 401) {
           return from(this.authService.updateToken()!).pipe(
             mergeMap(() => {
@@ -43,7 +44,7 @@ export class ApiInterceptor implements HttpInterceptor {
               } else {
                 // Refresh token has expired, logout the user
                 this.authService.checkIfTokenHasExpired();
-                return of();
+                return EMPTY;
               }
             }),
             catchError((err) => {
