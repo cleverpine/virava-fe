@@ -33,26 +33,31 @@ export class ApiInterceptor implements HttpInterceptor {
       catchError((err: HttpErrorResponse) => {
         // TODO: Handle the 401 error inside the Virava if possible
         if (err.status === 401) {
-          return from(this.authService.updateToken()!).pipe(
-            mergeMap(() => {
-              // Check if the token has been updated
-              const newToken = this.localStorageService.getData('access_token');
-              if (newToken && newToken !== token) {
-                // Token refreshed successfully, retry the request with the new token
-                const authReq = req.clone({ setHeaders: { Authorization: `Bearer ${newToken}` } });
-                return next.handle(authReq);
-              } else {
-                // Refresh token has expired, logout the user
+          if (!this.authService.isRefreshTokenExpired()) {
+            return from(this.authService.updateToken()!).pipe(
+              mergeMap(() => {
+                // Check if the token has been updated
+                const newToken = this.localStorageService.getData('access_token');
+                if (newToken && newToken !== token) {
+                  // Token refreshed successfully, retry the request with the new token
+                  const authReq = req.clone({ setHeaders: { Authorization: `Bearer ${newToken}` } });
+                  return next.handle(authReq);
+                } else {
+                  this.authService.checkIfTokenHasExpired();
+                  return EMPTY;
+                }
+              }),
+              catchError((err) => {
+                // Error occurred during token update, logout the user if the refresh token is expired, otherwise update the token
                 this.authService.checkIfTokenHasExpired();
-                return EMPTY;
-              }
-            }),
-            catchError((err) => {
-              // Error occurred during token update, logout the user if the refresh token is expired, otherwise update the token
-              this.authService.checkIfTokenHasExpired();
-              return of(err);
-            })
-          );
+                return of(err);
+              })
+            );
+          } else {
+            // Refresh token has expired, logout the user
+            this.authService.checkIfTokenHasExpired();
+            return EMPTY;
+          }
         }
 
         return of(err)
