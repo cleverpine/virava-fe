@@ -33,4 +33,8 @@ export class AuthService {
   checkIfTokenHasExpired() {
     this.viravaService?.checkIfTokenHasExpired();
   }
+
+  isRefreshTokenExpired() {
+    return this.viravaService?.isRefreshTokenExpired();
+  }
 }
