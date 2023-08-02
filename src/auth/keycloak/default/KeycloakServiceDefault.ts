@@ -129,4 +129,15 @@ export class KeycloakServiceDefault extends AuthServiceBase<KeycloakConfigDefaul
     // Check if the refresh token has expired
     return currentTime >= refreshTokenExp!;
   };
+
+  /**
+   * @returns the number of seconds until the refresh token expires
+   */
+  getSecondsUntilTokenExpiration = (): number => {
+    const refreshTokenExpiryTime = this.keycloak.refreshTokenParsed!.exp;
+    const currentTimestamp = Math.floor(new Date().getTime() / 1000);
+    const secondsUntilExpiry = refreshTokenExpiryTime! - currentTimestamp;
+
+    return secondsUntilExpiry;
+  };
 }
