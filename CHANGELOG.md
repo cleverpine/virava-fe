@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.4.0] - 2023-08-02
+### Added
+
+- Added method that returns the refresh token expiration time
+
+
 ## [1.3.0] - 2023-05-22
 ### Added
 
