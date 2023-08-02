@@ -7,7 +7,6 @@ import { removeTokens, setTokens } from '../../../utils/helpers';
 
 import { AuthServiceBase } from '../../../auth/base/AuthServiceBase';
 import { ACCESS_TOKEN_UPDATE_MIN_VALIDITY } from '../../../utils/constants';
-import { RefreshTokenExpirationValues } from '../../../models/RefreshTokenExpirationValues';
 
 export class KeycloakServiceDefault extends AuthServiceBase<KeycloakConfigDefault> {
   private keycloak!: Keycloak;
@@ -132,16 +131,13 @@ export class KeycloakServiceDefault extends AuthServiceBase<KeycloakConfigDefaul
   };
 
   /**
-   * @returns An object containing the number of seconds until the refresh token expires, and a boolean indicating if the token is about to expire after a certain amount of time
+   * @returns the number of seconds until the refresh token expires
    */
-  determineRefreshTokenExpiry = (expirationThreshold: number): RefreshTokenExpirationValues => {
+  getSecondsUntilTokenExpiration = (): number => {
     const refreshTokenExpiryTime = this.keycloak.refreshTokenParsed!.exp;
     const currentTimestamp = Math.floor(new Date().getTime() / 1000);
     const secondsUntilExpiry = refreshTokenExpiryTime! - currentTimestamp;
 
-    return {
-      secondsUntilExpiry,
-      willExpireSoon: secondsUntilExpiry <= expirationThreshold
-    };
+    return secondsUntilExpiry;
   };
 }
