@@ -22,7 +22,7 @@ steps:
   displayName: NPM build
   inputs:
     command: 'custom'
-    customCommand: 'run build table-helper'
+    customCommand: 'run build'
 
 
 - ${{ if startsWith(variables['Build.SourceBranch'], 'refs/heads/main') }}:
