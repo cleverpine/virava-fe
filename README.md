@@ -44,10 +44,10 @@ import { AuthServiceFactory, ServiceType, KeycloakServiceDefault } from 'virava'
 const authService = AuthServiceFactory.create(ServiceType.DEFAULT) as KeycloakServiceDefault;
 ```
 
-> Then you will need to add the configuration for the service (again depending on the flow).
+> Then you will need to add the configuration and the initOptions for the service (again depending on the flow). The initOptions is an optional parameter.
 
 ```js
-import { KeycloakConfigDefault } from 'virava';
+import { KeycloakConfigDefault, KeycloakInitOptions } from 'virava';
 
 const config: KeycloakConfigDefault = {
   clientId:'',
@@ -60,7 +60,11 @@ const config: KeycloakConfigDefault = {
   redirectUri: '' //optional
 };
 
-authService.init(config);
+const initOptions: KeycloakInitOptions = {
+  // Add your desired init options here
+};
+
+authService.init(config, initOptions);
 ```
 
 - Custom approach:
@@ -101,7 +105,7 @@ To start using Virava simply import your instance of `authService` and trigger s
 /**
  * Initializes the auth service configuration. It returns Promise.
  */
-authService.init(configuration);
+authService.init(configuration, initOptions);
 
 /**
  * Redirects the user to the keycloak login page. It returns Promise.
@@ -200,3 +204,18 @@ npm start
 ```
 ng serve
 ```
+
+## Examples
+
+
+### Angular using the default flow (Keycloak)
+
+**Location:** `examples/angular-default`
+
+### Angular using the custom flow
+
+**Location:** `examples/angular`
+
+### React using the custom flow
+
+**Location:** `examples/react`
