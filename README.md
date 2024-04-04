@@ -119,6 +119,11 @@ authService.register(email, password, confirmPassword);
 authService.isAuthenticated();
 
 /**
+ * Checks if the refresh token has expired, returning a boolean.
+ */
+authService.isRefreshTokenExpired();
+
+/**
  * Updates the authentication tokens in localStorage upon successful refresh. It returns Promise.
  */
 authService.updateToken()
@@ -132,11 +137,6 @@ authService.hasResourceRole(roleName, resource);
  * Checks if the user has a specific role in the realm, returning a boolean.
  */
 authService.hasRealmRole(roleName);
-
-/**
- * Checks if the refresh token has expired, returning a boolean.
- */
-authService.isRefreshTokenExpired();
 
 /**
  * Logouts user and remove tokens from `localStorage`. It returns Promise.
