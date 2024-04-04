@@ -1,4 +1,4 @@
-import Keycloak from 'keycloak-js';
+import Keycloak, { KeycloakInitOptions } from 'keycloak-js';
 
 import { KeycloakConfigDefault } from './KeycloakConfigDefault';
 import { AuthResponse } from '../../../models/AuthResponse';
@@ -10,13 +10,15 @@ import { ACCESS_TOKEN_UPDATE_MIN_VALIDITY } from '../../../utils/constants';
 
 export class KeycloakServiceDefault extends AuthServiceBase<KeycloakConfigDefault> {
   private keycloak!: Keycloak;
+  private initOptions?: KeycloakInitOptions;
 
   /**
    * Initialises the auth service configuration
    * @param configuration
    */
-  init = async (configuration: KeycloakConfigDefault): Promise<void> => {
+  init = async (configuration: KeycloakConfigDefault, initOptions?: KeycloakInitOptions): Promise<void> => {
     this.config = configuration;
+    this.initOptions = initOptions;
 
     this.keycloak = new Keycloak({
       realm: this.config.realm,
@@ -38,6 +40,7 @@ export class KeycloakServiceDefault extends AuthServiceBase<KeycloakConfigDefaul
         onLoad: 'login-required',
         checkLoginIframe: false,
         pkceMethod: 'S256',
+        ...this.initOptions
       })
       .then(() => {
         setTokens(this.config, {
