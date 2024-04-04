@@ -93,13 +93,13 @@ authService.init(config);
 
 ## 3. Start using Virava
 
-To start using Virava simply import your instance of `authService` and trigger some of it's methods:
+To start using Virava simply import your instance of `authService` and trigger some of its methods:
 
 - Keycloak Default pages approach:
 
 ```
 /**
- * Initialises the auth service configuration. It returns Promise.
+ * Initializes the auth service configuration. It returns Promise.
  */
 authService.init(configuration);
 
@@ -114,9 +114,29 @@ authService.login();
 authService.register(email, password, confirmPassword);
 
 /**
- * Returns a boolean if the user is authenticated or not.
+ * Checks if the user is authenticated, returning a boolean.
  */
 authService.isAuthenticated();
+
+/**
+ * Updates the authentication tokens in localStorage upon successful refresh. It returns Promise.
+ */
+authService.updateToken()
+
+/**
+ * Checks if the user has a specific role for a resource or client, returning a boolean.
+ */
+authService.hasResourceRole(roleName, resource);
+
+/**
+ * Checks if the user has a specific role in the realm, returning a boolean.
+ */
+authService.hasRealmRole(roleName);
+
+/**
+ * Checks if the refresh token has expired, returning a boolean.
+ */
+authService.isRefreshTokenExpired();
 
 /**
  * Logouts user and remove tokens from `localStorage`. It returns Promise.
@@ -129,7 +149,7 @@ authService.logout();
 
 ```
 /**
- * Initialises the auth service configuration.
+ * Initializes the auth service configuration.
  */
 authService.init(configuration);
 
@@ -165,7 +185,6 @@ authService.logout();
 ```
 
 
-
 ## 4. Test your application
 
 
@@ -181,9 +200,3 @@ npm start
 ```
 ng serve
 ```
-
-
-## Examples
-- [React](https://dev.azure.com/cleverpine/Virava%20Solution/_git/cp-web-auth-service?path=/examples/react)
-- [Angular](https://dev.azure.com/cleverpine/Virava%20Solution/_git/cp-web-auth-service?path=/examples/angular)
-
