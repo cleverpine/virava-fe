@@ -1,4 +1,4 @@
-import Keycloak from 'keycloak-js';
+import Keycloak, { KeycloakInitOptions } from 'keycloak-js';
 
 import { KeycloakConfigDefault } from './KeycloakConfigDefault';
 import { AuthResponse } from '../../../models/AuthResponse';
@@ -10,13 +10,15 @@ import { ACCESS_TOKEN_UPDATE_MIN_VALIDITY } from '../../../utils/constants';
 
 export class KeycloakServiceDefault extends AuthServiceBase<KeycloakConfigDefault> {
   private keycloak!: Keycloak;
+  private initOptions?: KeycloakInitOptions;
 
   /**
    * Initialises the auth service configuration
    * @param configuration
    */
-  init = async (configuration: KeycloakConfigDefault): Promise<void> => {
+  init = async (configuration: KeycloakConfigDefault, initOptions?: KeycloakInitOptions): Promise<void> => {
     this.config = configuration;
+    this.initOptions = initOptions;
 
     this.keycloak = new Keycloak({
       realm: this.config.realm,
@@ -32,11 +34,13 @@ export class KeycloakServiceDefault extends AuthServiceBase<KeycloakConfigDefaul
     if (!this.config?.clientId || !this.config.baseUrl || !this.keycloak) {
       throw new Error('Service not initialized!');
     }
+
     return this.keycloak
       .init({
         onLoad: 'login-required',
         checkLoginIframe: false,
         pkceMethod: 'S256',
+        ...this.initOptions
       })
       .then(() => {
         setTokens(this.config, {
@@ -139,5 +143,31 @@ export class KeycloakServiceDefault extends AuthServiceBase<KeycloakConfigDefaul
     const secondsUntilExpiry = refreshTokenExpiryTime! - currentTimestamp;
 
     return secondsUntilExpiry;
+  };
+
+    /**
+   * Checks if the user has a specific role in the realm.
+   * @param roleName The name of the role to check for.
+   * @returns true if the user has the role, false otherwise.
+   */
+  hasRealmRole = (roleName: string): boolean => {
+    if (!this.keycloak.authenticated) {
+      throw new Error('User is not authenticated!');
+    }
+
+    return this.keycloak.hasRealmRole(roleName);
+  };
+
+    /**
+   * Checks if the user has a specific role for a resource or client.
+   * @param roleName The name of the role to check for.
+   * @param resource The clientId of the resource. If not provided, uses the clientId from the configuration.
+   * @returns true if the user has the role for the resource, false otherwise.
+   */
+  hasResourceRole = (roleName: string, resource?: string): boolean => {
+    if (!this.keycloak.authenticated) {
+      throw new Error('User is not authenticated!');
+    }
+    return this.keycloak.hasResourceRole(roleName, resource || this.config.clientId);
   };
 }

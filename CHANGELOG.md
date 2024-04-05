@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.5.0] - 2024-04-04
+### Added
+
+- Added methods for checking if user has a role based on realm/resource
+- Added optional KeycloakInitOptions for Virava's init method
+
 ## [1.4.0] - 2023-08-02
 ### Added
 
