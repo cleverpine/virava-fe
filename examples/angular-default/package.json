@@ -1,5 +1,5 @@
 {
-  "name": "virava-module-angular",
+  "name": "angular-default",
   "version": "1.0.0",
   "scripts": {
     "ng": "ng",
