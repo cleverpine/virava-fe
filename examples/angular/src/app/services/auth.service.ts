@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AuthServiceFactory, KeycloakServiceCustom, KeycloakConfigCustom, ServiceType } from 'virava';
+import { AuthServiceFactory, KeycloakConfigCustom, KeycloakServiceCustom, ServiceType } from 'virava';
 
 const ACCESS_TOKEN_KEY = 'access_token';
 
@@ -28,11 +28,11 @@ export class AuthService {
     return this.cpAuthService?.changePassword(email, currentPass, newPass, confirmPass);
   }
 
-  logIn(email: string, pass: string) {
+  login(email: string, pass: string) {
     return this.cpAuthService?.login(email, pass);
   }
 
-  logOut() {
+  logout() {
     return this.cpAuthService?.logout();
   }
 

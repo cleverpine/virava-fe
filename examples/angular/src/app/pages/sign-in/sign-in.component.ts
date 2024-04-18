@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ROUTE_HOME, ROUTE_RESET_PASSWORD, ROUTE_SIGN_UP } from 'src/app/app-routing.module';
-import { AuthService } from '../../auth.service';
 import { MyErrorStateMatcher } from '../../error-state-matcher';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-sign-in',
@@ -31,7 +31,7 @@ export class SignInComponent implements OnInit {
 
   submitForm(e: any) {
     e.preventDefault();
-    this.authService.logIn(this.signInForm.value.email, this.signInForm.value.password)
+    this.authService.login(this.signInForm.value.email, this.signInForm.value.password)
       ?.then(res => {
         this.router.navigate([`/${ROUTE_HOME}`])
       })
