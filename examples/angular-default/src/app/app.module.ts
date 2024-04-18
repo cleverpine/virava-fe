@@ -1,11 +1,12 @@
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { ApiInterceptor } from './interceptors/api.interceptor';
+import { AuthService } from "./services/auth.service";
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { ApiInterceptor } from './interceptors/api.interceptor';
       useClass: ApiInterceptor,
       multi: true
     },
+    AuthService
   ],
   bootstrap: [AppComponent]
 })
