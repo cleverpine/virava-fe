@@ -1,0 +1,7 @@
+{
+  "production": false,
+  "basePath": "https://digiwe-service-dev.apps.az.lhtcloud.com",
+  "ssoServerUrl": "https://sso-kons.app.lhtcloud.com/auth",
+  "ssoServerClientId": "digiwe",
+  "ssoServerRealm": "LHT"
+}

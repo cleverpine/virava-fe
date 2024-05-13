@@ -1,0 +1,45 @@
+.not-found-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  background-color: white;
+  color: black;
+
+  .not-found-error-message,
+  .not-found-first-error-heading,
+  .not-found-second-error-heading {
+    font-weight: 400;
+    text-align: center;
+  }
+
+  .not-found-error-message {
+    margin: 0;
+    padding: 16px 0;
+    font-size: 3.2rem;
+  }
+
+  .not-found-first-error-heading {
+    margin: 0;
+    font-size: 2rem;
+  }
+
+  .not-found-second-error-heading {
+    margin: 20px 0;
+    font-size: 1.4rem;
+  }
+
+  .back-home-btn {
+    padding: 10px 20px;
+    border: none;
+    font-size: 14px;
+    background-color: #1e2d5f;
+    color: #ffffff;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #04123e;
+    }
+  }
+}
