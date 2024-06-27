@@ -8,6 +8,7 @@ import {
 } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
+// to be used when openapi is configured
 // import { ApiConfiguration } from '@openapi/api-configuration';
 
 import { firstValueFrom } from "rxjs";
