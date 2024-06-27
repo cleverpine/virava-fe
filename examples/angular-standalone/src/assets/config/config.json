@@ -1,0 +1,7 @@
+{
+  "production": false,
+  "basePath": "",
+  "ssoServerUrl": "https://virava-keycloak.thepineslab.net/auth",
+  "ssoServerClientId": "web",
+  "ssoServerRealm": "master"
+}
